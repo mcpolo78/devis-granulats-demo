@@ -1,0 +1,76 @@
+// Schéma Postgres (Neon en production). Données fictives.
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Fournisseur {
+  id     String  @id
+  nom    String
+  ville  String
+  lat    Float
+  lng    Float
+  type   String
+  tarifs Tarif[]
+}
+
+model Produit {
+  code      String  @id
+  nom       String
+  categorie String
+  densite   Float
+  usage     String
+  tarifs    Tarif[]
+  devis     Devis[]
+}
+
+model Tarif {
+  id            Int         @id @default(autoincrement())
+  fournisseur   Fournisseur @relation(fields: [fournisseurId], references: [id], onDelete: Cascade)
+  fournisseurId String
+  produit       Produit     @relation(fields: [produitCode], references: [code], onDelete: Cascade)
+  produitCode   String
+  prixTonne     Float
+
+  @@unique([fournisseurId, produitCode])
+}
+
+model Camion {
+  code      String  @id
+  nom       String
+  capaciteT Float
+  coutKm    Float
+  forfait   Float
+  co2Km     Float
+  urbain    Boolean
+}
+
+model IndiceGazole {
+  mois   String @id
+  valeur Float
+}
+
+model Devis {
+  id             String   @id @default(cuid())
+  adresse        String
+  lat            Float
+  lng            Float
+  produit        Produit  @relation(fields: [produitCode], references: [code])
+  produitCode    String
+  tonnage        Float
+  fournisseurNom String
+  camionCode     String
+  rotations      Int
+  totalHT        Float
+  prixTonne      Float
+  co2Kg          Int
+  creneau        String?
+  statut         String   @default("devis")
+  createdAt      DateTime @default(now())
+
+  @@index([createdAt])
+}

@@ -1,0 +1,32 @@
+{
+  "name": "devis-granulats-demo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Démo : moteur de devis instantané de granulats livrés (fournisseurs × camions × indexation gazole). React + Express + Prisma + Postgres + Redis.",
+  "engines": {
+    "node": "22.x"
+  },
+  "scripts": {
+    "dev": "node --env-file-if-exists=.env scripts/dev.js",
+    "build": "prisma generate && node scripts/preparer-base.js && vite build",
+    "postinstall": "prisma generate",
+    "db:push": "prisma db push --skip-generate",
+    "db:seed": "node prisma/seed.js",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.3",
+    "@upstash/redis": "^1.41.0",
+    "express": "^5.3.0",
+    "redis": "^5.12.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.2.0",
+    "leaflet": "^1.9.4",
+    "prisma": "^6.19.3",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "vite": "^7.3.7"
+  }
+}
