@@ -18,6 +18,9 @@ const DEPART = {
   accesDifficile: false,
 };
 
+// Empreinte d'une demande : sert à griser « Calculer » tant que rien n'a changé depuis le dernier devis.
+const empreinte = (d) => [d.lat.toFixed(4), d.lng.toFixed(4), d.produitCode, d.tonnage, d.accesDifficile ? 1 : 0].join('|');
+
 export default function App() {
   const [ref, setRef] = useState(null);
   const [demande, setDemande] = useState(DEPART);
@@ -27,6 +30,7 @@ export default function App() {
   const [erreur, setErreur] = useState('');
   const [activite, setActivite] = useState(null);
   const [toast, setToast] = useState('');
+  const [dernierCalcul, setDernierCalcul] = useState('');
 
   const rafraichirActivite = useCallback(() => api.activite().then(setActivite).catch(() => {}), []);
 
@@ -36,6 +40,7 @@ export default function App() {
     try {
       const r = await api.devis(d);
       setResultat(r);
+      setDernierCalcul(empreinte(d));
       setSelection(0);
       rafraichirActivite();
       // Sur téléphone et petit écran, les résultats sont sous le formulaire : on y descend en douceur.
@@ -84,7 +89,7 @@ export default function App() {
       </header>
 
       <aside className="col gauche">
-        <Formulaire ref_={ref} demande={demande} setDemande={setDemande} onCalculer={(d) => lancer(d)} chargement={chargement} erreur={erreur} />
+        <Formulaire ref_={ref} demande={demande} setDemande={setDemande} onCalculer={(d) => lancer(d)} aJour={dernierCalcul === empreinte(demande)} chargement={chargement} erreur={erreur} />
         <Offres resultat={resultat} selection={selection} onSelection={setSelection} chargement={chargement} />
       </aside>
 

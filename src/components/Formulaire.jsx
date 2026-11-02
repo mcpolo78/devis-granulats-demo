@@ -16,7 +16,7 @@ const EXEMPLES = [
 ];
 const ETAPES = ['Lecture de la demande', 'Choix du granulat adapté', 'Surface et épaisseur', 'Calcul du tonnage'];
 
-export default function Formulaire({ ref_, demande, setDemande, onCalculer, chargement, erreur }) {
+export default function Formulaire({ ref_, demande, setDemande, onCalculer, aJour, chargement, erreur }) {
   const [saisie, setSaisie] = useState(demande.adresse);
   const [suggestions, setSuggestions] = useState([]);
   const [ouvert, setOuvert] = useState(false);
@@ -28,6 +28,8 @@ export default function Formulaire({ ref_, demande, setDemande, onCalculer, char
   const [etatIa, setEtatIa] = useState('');
   const [etape, setEtape] = useState(0);
   const chargeIa = etatIa === 'chargement';
+  const [texteAnalyse, setTexteAnalyse] = useState('');
+  const texteNouveau = texte.trim() !== '' && texte.trim() !== texteAnalyse;
 
   useEffect(() => {
     if (!chargeIa) return undefined;
@@ -42,6 +44,7 @@ export default function Formulaire({ ref_, demande, setDemande, onCalculer, char
     try {
       const a = await api.assistant(t);
       setIa(a);
+      setTexteAnalyse(t.trim());
       setEtatIa('');
       const d = { ...demande, produitCode: a.produitCode, tonnage: a.tonnage };
       setDemande(d);
@@ -52,7 +55,8 @@ export default function Formulaire({ ref_, demande, setDemande, onCalculer, char
   }
 
   function soumettre() {
-    if (mode === 'ia') viaIa();
+    // Onglet IA : on ne rappelle Mistral que si la description a changé (sinon on recalcule juste le devis).
+    if (mode === 'ia' && texteNouveau) viaIa();
     else onCalculer(demande);
   }
 
@@ -186,9 +190,21 @@ export default function Formulaire({ ref_, demande, setDemande, onCalculer, char
           <span>Accès difficile (camions de 12 t max)</span>
         </label>
 
-        <button className="btn btn-principal" disabled={chargement || chargeIa || (mode === 'ia' && !texte.trim())}>
-          {chargeIa ? 'Analyse en cours…' : chargement ? 'Calcul…' : mode === 'ia' ? 'Calculer mon devis avec l\u2019IA' : 'Calculer mon devis'}
-        </button>
+        {(() => {
+          const texteVide = mode === 'ia' && !texte.trim();
+          const aJourIci = mode === 'ia' ? !texteNouveau && aJour : aJour;
+          const rienAFaire = texteVide || aJourIci;
+          let libelle = mode === 'ia' && texteNouveau ? 'Calculer mon devis avec l\u2019IA' : 'Calculer mon devis';
+          if (texteVide) libelle = 'Calculer mon devis avec l\u2019IA';
+          else if (aJourIci) libelle = 'Devis à jour ✓';
+          if (chargement) libelle = 'Calcul…';
+          if (chargeIa) libelle = 'Analyse en cours…';
+          return (
+            <button className="btn btn-principal" disabled={chargement || chargeIa || rienAFaire} title={rienAFaire ? 'Modifiez l\u2019adresse, le produit ou la quantité pour recalculer' : undefined}>
+              {libelle}
+            </button>
+          );
+        })()}
         {erreur && <p className="erreur">{erreur}</p>}
       </form>
     </section>
