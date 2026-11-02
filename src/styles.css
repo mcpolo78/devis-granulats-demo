@@ -117,7 +117,7 @@ h2 { font-size: 12.5px; font-weight: 600; margin: 0 0 8px; display: flex; align-
 .btn-principal:hover:not(:disabled) { background: var(--accent); opacity: 0.88; }
 .puce { border: 1px solid var(--bord); background: transparent; border-radius: 999px; padding: 3px 9px; font-size: 11.5px; cursor: pointer; color: var(--texte-2); transition: all var(--duree); white-space: nowrap; }
 .puce:hover:not(:disabled) { border-color: var(--texte-3); color: var(--texte); }
-.puce.actif { background: var(--accent); color: var(--accent-texte); border-color: var(--accent); }
+.puce.actif, .puce.actif:hover:not(:disabled) { background: var(--accent); color: var(--accent-texte); border-color: var(--accent); }
 .puce:disabled { cursor: default; }
 .erreur { color: var(--danger); margin: 6px 0 0; font-size: 12px; }
 .tag { font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 4px; background: var(--accent-doux); color: var(--texte); }
@@ -266,7 +266,6 @@ input[type='range'] { width: 100%; accent-color: var(--accent); }
 .offre-bas span:last-child { white-space: nowrap; color: var(--texte-2); }
 
 /* ---------- Planning ---------- */
-.planning h2 .discret::first-letter { text-transform: uppercase; }
 .creneaux { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
 
 /* ---------- Indice gazole ---------- */
@@ -372,3 +371,13 @@ input[type='range'] { width: 100%; accent-color: var(--accent); }
 .mode-manuel .produit { padding: 4px 8px; }
 .offre { padding: 6px 10px; }
 .liste-offres { gap: 5px; }
+
+/* ---------- Choix du jour de livraison ---------- */
+.jours { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin-bottom: 6px; }
+.jour { display: flex; flex-direction: column; align-items: center; padding: 3px 0; border: 1px solid var(--bord); border-radius: 8px; background: transparent; cursor: pointer; line-height: 1.2; transition: all var(--duree); }
+.jour span { font-size: 10.5px; color: var(--texte-3); text-transform: capitalize; }
+.jour strong { font-size: 13px; }
+.jour:hover:not(:disabled) { border-color: var(--texte-3); }
+.jour.actif { background: var(--accent); border-color: var(--accent); color: var(--accent-texte); }
+.jour.actif span { color: var(--accent-texte); opacity: 0.8; }
+.jour:disabled { cursor: default; }
