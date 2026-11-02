@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
 import { api } from './api.js';
-import Assistant from './components/Assistant.jsx';
 import Formulaire from './components/Formulaire.jsx';
 import Carte from './components/Carte.jsx';
 import Kpis from './components/Kpis.jsx';
@@ -85,7 +84,7 @@ export default function App() {
       </header>
 
       <aside className="col gauche">
-        <Formulaire ref_={ref} demande={demande} setDemande={setDemande} onCalculer={() => lancer(demande)} chargement={chargement} erreur={erreur} />
+        <Formulaire ref_={ref} demande={demande} setDemande={setDemande} onCalculer={(d) => lancer(d)} chargement={chargement} erreur={erreur} />
         <Offres resultat={resultat} selection={selection} onSelection={setSelection} chargement={chargement} />
       </aside>
 
@@ -103,13 +102,6 @@ export default function App() {
       </main>
 
       <aside className="col droite">
-        <Assistant
-          onAppliquer={(a) => {
-            const d = { ...demande, produitCode: a.produitCode, tonnage: a.tonnage };
-            setDemande(d);
-            lancer(d);
-          }}
-        />
         <Planning
           resultat={resultat}
           offre={offre}
