@@ -22,7 +22,7 @@ export default function Formulaire({ ref_, demande, setDemande, onCalculer, aJou
   const [ouvert, setOuvert] = useState(false);
   const minuteur = useRef(null);
   // Deux façons de dire ce qu'on veut : décrire le chantier (l'IA trouve produit + tonnage) ou choisir soi-même.
-  const [mode, setMode] = useState('ia');
+  const [mode, setMode] = useState('manuel');
   const [texte, setTexte] = useState('');
   const [ia, setIa] = useState(null);
   const [etatIa, setEtatIa] = useState('');
