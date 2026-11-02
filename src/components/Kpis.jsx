@@ -17,7 +17,7 @@ export default function Kpis({ resultat, offre, tonnage, chargement }) {
   return (
     <section className={`kpis ${chargement ? 'charge' : ''}`} aria-label="Indicateurs">
       {tuiles.map((t) => (
-        <div className="kpi" key={t.titre}>
+        <div className="kpi" key={`${t.titre}-${resultat?.devisId ?? ''}`}>
           <span className="kpi-titre">{t.titre}{t.badge && <b className={`badge ${t.badge === 'HIT' ? 'hit' : ''}`}>{t.badge}</b>}</span>
           <span className="kpi-valeur">{t.valeur}</span>
           <span className="kpi-detail">{t.detail}</span>

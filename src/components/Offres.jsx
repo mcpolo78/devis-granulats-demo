@@ -5,7 +5,7 @@ export default function Offres({ resultat, selection, onSelection, chargement })
   return (
     <section className={`panneau offres ${chargement ? 'charge' : ''}`}>
       <h2>Meilleures offres <span className="discret">prix HT, livraison comprise</span></h2>
-      <ol className="liste-offres">
+      <ol className="liste-offres" key={resultat?.devisId ?? 'vide'}>
         {offres.map((o, i) => (
           <li key={o.fournisseur.id}>
             <button type="button" className={`offre ${i === selection ? 'actif' : ''}`} onClick={() => onSelection(i)} aria-pressed={i === selection}>

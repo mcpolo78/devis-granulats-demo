@@ -31,7 +31,7 @@ export default function App() {
 
   const rafraichirActivite = useCallback(() => api.activite().then(setActivite).catch(() => {}), []);
 
-  const lancer = useCallback(async (d) => {
+  const lancer = useCallback(async (d, { defiler = true } = {}) => {
     setChargement(true);
     setErreur('');
     try {
@@ -39,6 +39,10 @@ export default function App() {
       setResultat(r);
       setSelection(0);
       rafraichirActivite();
+      // Sur téléphone et petit écran, les résultats sont sous le formulaire : on y descend en douceur.
+      if (defiler && window.matchMedia('(max-width: 1180px)').matches) {
+        requestAnimationFrame(() => document.getElementById('resultats')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+      }
     } catch (e) {
       setErreur(e.message);
     } finally {
@@ -48,7 +52,7 @@ export default function App() {
 
   useEffect(() => {
     api.referentiel().then(setRef).catch((e) => setErreur(e.message));
-    lancer(DEPART);
+    lancer(DEPART, { defiler: false });
   }, [lancer]);
 
   const notifier = (m) => {
@@ -104,7 +108,7 @@ export default function App() {
         <Decomposition resultat={resultat} selection={selection} onSelection={setSelection} />
       </main>
 
-      <aside className="col droite">
+      <aside className="col droite" id="resultats">
         <Offres resultat={resultat} selection={selection} onSelection={setSelection} chargement={chargement} />
         <Planning
           resultat={resultat}
