@@ -363,7 +363,8 @@ input[type='range'] { width: 100%; accent-color: var(--accent); }
 .ia-res em { color: var(--texte-3); }
 .lien { border: 0; background: none; padding: 0; color: var(--focus); cursor: pointer; text-decoration: underline; font-size: 12px; }
 
-.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.sr-only { position: absolute; left: 0; top: 0; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.formulaire .champ { position: relative; }
 .ia-progression { display: flex; align-items: center; gap: 8px; font-size: 11.5px; color: var(--texte-2); }
 .ia-barre { flex: 0 0 64px; height: 4px; border-radius: 2px; background: var(--bord); overflow: hidden; }
 .ia-barre i { display: block; height: 100%; background: var(--texte); border-radius: 2px; transition: width 600ms ease; }
