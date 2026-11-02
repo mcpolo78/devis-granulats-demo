@@ -85,14 +85,8 @@ export default function App() {
       </header>
 
       <aside className="col gauche">
-        <Assistant
-          onAppliquer={(a) => {
-            const d = { ...demande, produitCode: a.produitCode, tonnage: a.tonnage };
-            setDemande(d);
-            lancer(d);
-          }}
-        />
         <Formulaire ref_={ref} demande={demande} setDemande={setDemande} onCalculer={() => lancer(demande)} chargement={chargement} erreur={erreur} />
+        <Offres resultat={resultat} selection={selection} onSelection={setSelection} chargement={chargement} />
       </aside>
 
       <main className="col centre">
@@ -108,8 +102,14 @@ export default function App() {
         <Decomposition resultat={resultat} selection={selection} onSelection={setSelection} />
       </main>
 
-      <aside className="col droite" id="resultats">
-        <Offres resultat={resultat} selection={selection} onSelection={setSelection} chargement={chargement} />
+      <aside className="col droite">
+        <Assistant
+          onAppliquer={(a) => {
+            const d = { ...demande, produitCode: a.produitCode, tonnage: a.tonnage };
+            setDemande(d);
+            lancer(d);
+          }}
+        />
         <Planning
           resultat={resultat}
           offre={offre}

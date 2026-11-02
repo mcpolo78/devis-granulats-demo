@@ -3,7 +3,7 @@ import { eur, eur2, num } from '../api.js';
 export default function Offres({ resultat, selection, onSelection, chargement }) {
   const offres = resultat?.offres.slice(0, 3) ?? [];
   return (
-    <section className={`panneau offres ${chargement ? 'charge' : ''}`}>
+    <section id="resultats" className={`panneau offres ${chargement ? 'charge' : ''}`}>
       <h2>Meilleures offres <span className="discret">prix HT, livraison comprise</span></h2>
       <ol className="liste-offres" key={resultat?.devisId ?? 'vide'}>
         {offres.map((o, i) => (

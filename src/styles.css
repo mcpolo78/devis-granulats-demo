@@ -142,7 +142,8 @@ textarea:focus, .autocomplete input:focus { border-color: var(--focus); backgrou
 .assistant-res em { color: var(--texte-3); }
 
 /* ---------- Formulaire ---------- */
-.formulaire { flex: 1; min-height: 0; overflow: auto; }
+.formulaire { flex: 0 1 auto; min-height: 0; overflow: auto; }
+.offres { flex: 1 0 auto; }
 .formulaire form { display: flex; flex-direction: column; gap: 8px; }
 .champ { display: flex; flex-direction: column; gap: 4px; border: 0; padding: 0; margin: 0; }
 .champ > span, .champ legend { color: var(--texte-2); font-size: 12px; display: flex; justify-content: space-between; padding: 0; margin-bottom: 2px; width: 100%; }
@@ -316,7 +317,7 @@ input[type='range'] { width: 100%; accent-color: var(--accent); }
   .entete { flex-wrap: wrap; padding: 8px 0; height: auto; gap: 6px; }
   .sous-titre { display: none; }
   .infra { flex-wrap: wrap; }
-  .droite { scroll-margin-top: 10px; }
+  .offres { scroll-margin-top: 10px; }
   .formulaire { overflow: visible; }
   .carte-panneau { min-height: 380px; }
   .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
