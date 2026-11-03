@@ -3,12 +3,12 @@ import { eur2, num } from '../api.js';
 export default function Kpis({ resultat, offre, tonnage, chargement }) {
   const vide = !resultat || !offre;
   const tuiles = [
-    { titre: 'Combinaisons évaluées', valeur: vide ? '–' : num(resultat.combinaisonsEvaluees), detail: vide ? '' : `${resultat.sitesProches} sites à moins de 150 km` },
-    { titre: 'Prix livré retenu', valeur: vide ? '–' : `${eur2(offre.prixTonneLivre)}/t`, detail: vide ? '' : `${num(tonnage)} t · ${offre.camion.nom}` },
-    { titre: 'Écart de prix entre sites', valeur: vide || !resultat.ecartPrix ? '–' : `×${num(resultat.ecartPrix, 2)}`, detail: 'du moins cher au plus cher' },
-    { titre: 'CO₂ du transport', valeur: vide ? '–' : `${num(offre.co2Kg)} kg`, detail: vide ? '' : `${offre.rotations} rotation${offre.rotations > 1 ? 's' : ''} · ${num(offre.remplissage * 100)} % rempli` },
+    { titre: 'Combinaisons', valeur: vide ? '–' : num(resultat.combinaisonsEvaluees), detail: vide ? '' : `évaluées · ${resultat.sitesProches} site${resultat.sitesProches > 1 ? 's' : ''} < 150 km` },
+    { titre: 'Prix livré', valeur: vide ? '–' : `${eur2(offre.prixTonneLivre)}/t`, detail: vide ? '' : `${num(tonnage)} t · ${offre.camion.nom}` },
+    { titre: 'Écart entre sites', valeur: vide || !resultat.ecartPrix ? '–' : `×${num(resultat.ecartPrix, 2)}`, detail: 'du moins cher au plus cher' },
+    { titre: 'CO₂ transport', valeur: vide ? '–' : `${num(offre.co2Kg)} kg`, detail: vide ? '' : `${offre.rotations} rotation${offre.rotations > 1 ? 's' : ''} · ${num(offre.remplissage * 100)} % rempli` },
     {
-      titre: 'Temps de calcul',
+      titre: 'Calcul',
       valeur: vide ? '–' : `${num(resultat.perf.ms, 1)} ms`,
       detail: vide ? '' : `cache ${resultat.perf.moteur === 'redis' ? 'Redis' : 'mémoire'} : ${resultat.perf.cache === 'HIT' ? 'déjà calculé' : 'nouveau calcul'}`,
       badge: vide ? null : resultat.perf.cache,
